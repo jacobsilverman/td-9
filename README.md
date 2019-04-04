@@ -1,3 +1,9 @@
+# Notes from Developer
+
+I removed the search button after I added search-as-you-type feature it was redundent.
+
+# Create React App (Boilerplate Readme)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

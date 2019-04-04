@@ -10,7 +10,6 @@ class GalleryContainer extends Component {
 		and still access props?
 	 */
 	render(){
-		console.log('GalleryContainer 2',this.props)	
 		return(
 			<ul>
 	    		 {this.props.gallery.map(item => {

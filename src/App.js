@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 // import logo from './logo.svg';
 import './App.css';
 import './styles/index.css';
@@ -10,62 +10,125 @@ import api_key from './config';
 import { Provider } from './context';
 import Loading from './components/loading';
 
+const Header = (props) => {
+
+  return (
+      <Fragment>
+        <SearchBar {...props} />
+        <MainNav {...props}/>
+      </Fragment>
+  )
+}
+
+
 class App extends Component {
 
+  /* 
+    done: keep and manage as much of the state and functionality as possible in your src/App.js file, and pass data down to reusable stateless components with props.
+  */
+
   state = {
-   gallery: [],
     query: '',
     loading: true,
+    nav_items: ['cats', 'dogs', 'computers'],
+    gallery: [],
+    stock: {
+      0: [],
+      1: [],
+      2: []
+    }
   };
 
-  /* 
-    todo: preload and store gallery for nav-items
-    cats, dogs, computers
-  */
-
-  /* 
-    todo: 404 route
-  */
-
-  /* 
-    todo: do all the controlled components need to be controlled or can they be changed to be pure components?
-  */
-
   componentWillMount = () => {
-    this.performSearch();
+    /* done: perform a search on start */
+    this.performSearch(this.state.nav_items[0]);
+    /* */
+    for (var i = 0; i < 3; i++) {
+      this.performSearch(this.state.nav_items[i],i);
+    }
   }
 
   handleQueryChange = (query) => {
-    // var url = new URL();
-    
     this.setState( prevState => {
       return ({ ...prevState, query, loading: true });
     }, () => {
-      this.performSearch();
-      this.props.history.replace(`?search=${this.state.query}`)
+      switch (this.state.query) {
+        case this.state.nav_items[0]:
+          this.renderStock(0);
+          break;
+        case this.state.nav_items[1]:
+          this.renderStock(1);
+          break;
+        case this.state.nav_items[2]:
+          console.log('stock',this.state.stock)
+          this.renderStock(2);
+          break;
+        default:
+          this.performSearch(this.state.query);
+      }
+      
+      /* 
+        bonus: add this line if you want the URL to reflect search params
+        this.props.history.replace(`?search=${this.state.query}`)
+      */ 
     });
   }
 
-  performSearch = () => {
+  renderStock = (item_num) => {
+    this.setState((prevState) => { 
+            return (
+              {...prevState, 
+                gallery: this.state.stock[item_num], 
+                loading: true 
+              }
+            )
+          }, () => {
+            this.setState((prevState) => { 
+              return ({
+                ...prevState, 
+                loading: false 
+              })
+            })
+          })
+  }
 
+  updateState = (index, prevState, data) => {
+    return ({
+      ...prevState,
+
+      stock: {
+        ...prevState.stock,
+        [index]: data
+      },
+      loading: false
+    });
+  }
+
+  performSearch = (query, dest) => {
     let fetch_url = `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${api_key}&per_page=24&content_type=1&format=json&nojsoncallback=1&tags=`
-    if (this.state.query) {
-      fetch_url = fetch_url + `${this.state.query}`;
+    if (query) {
+      fetch_url = fetch_url + `${query}`;
     } else {
-      fetch_url = fetch_url + 'cats';
+      fetch_url = fetch_url + `${this.state.nav_items[0]}`;
     }
-    
-    //https://www.flickr.com/services/api/misc.urls.html
-    // console.log('performSearch url ', fetch_url);
     fetch(fetch_url)
       .then(res => res.json())
       .then(myJson => {
-        const gallery = myJson.photos.photo;
+        const data = myJson.photos.photo;
         this.setState((prevState) => { 
-          return ({...prevState, gallery, loading: false })
+          switch (dest) {
+            case 0 :
+              return this.updateState(0, prevState, data);
+            case 1 :
+              return this.updateState(1, prevState, data);
+            case 2 :
+              return this.updateState(2, prevState, data);
+            default:
+              return ({ ...prevState, gallery: data, loading: false })
+          }
         })
-      })
-  }
+      });
+    }
 
   checkImage = () => {
     /* 
@@ -80,10 +143,16 @@ class App extends Component {
     return (
         <div className="body">
           <div className="container">
-            <SearchBar 
-              value={this.state.query} 
-              onChange={this.handleQueryChange}/>
-            <MainNav onChange={this.handleQueryChange}/>
+
+        {/* A Header component that could store things like an app title, logo, nav and search bar. Remember, the mockups and index.html file are a guide for how the main components should be laid out, arranged, and positioned, but you can personalize your app by adding things like a tittle, logo, footer, etc.. */}
+
+          <Header 
+            query={this.state.query} 
+            onChange={this.handleQueryChange} 
+            items={this.state.nav_items}
+            />
+
+
             <div className="photo-container">
               <h2>Results</h2>
               { this.state.loading ?

@@ -3,34 +3,21 @@ import '../styles/index.css';
 import { Consumer } from '../context'
 import SearchIcon from './search-icon'
 
-class SearchBar extends Component {
-	/* 
-		controlled component
-	
-	constructor(props) {
-	    super(props);
-	    
-	}
-	*/
-	render(){
-		return(
-			<form 
-				className="search-form">
-			    <input 
-			    	type="search" 
-			    	name="search" 
-			    	placeholder="Search" 
-			    	required 
-			    	value={this.props.value}
-			    	onChange={(e) => this.props.onChange(e.target.value)}
-			    	/>
-			    <button type="submit" 
-			    	className="search-button">
-			      	<SearchIcon />
-			    </button>
-			</form>
-		)
-	}
+const SearchBar = (props) => {
+	return(
+		<form 
+			className="search-form">
+			{console.log('SearchBar ', props)}
+		    <input 
+		    	type="search" 
+		    	name="search" 
+		    	placeholder="Search" 
+		    	required 
+		    	value={props.query}
+		    	onChange={(e) => props.onChange(e.target.value)}
+		    	/>
+		</form>
+	)
 }
 
 export default SearchBar;
