@@ -1,12 +1,12 @@
 import React from 'react';
 import '../styles/index.css';
 
-let PhotoContainer = (props) => (
-	<React.Fragment>
-    	<li>
-			<img src={props.url} alt="" />
-		</li>
-	</React.Fragment>
-)
+/* 
+	A single Gallery-item component that can be reused with iteration to display each list item and image.
+*/
 
-export default PhotoContainer;
+export default (props) => (
+	<li>
+		<img src={props.url} alt="" />
+	</li>
+);

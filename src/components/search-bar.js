@@ -3,21 +3,19 @@ import '../styles/index.css';
 import { Consumer } from '../context'
 import SearchIcon from './search-icon'
 
-const SearchBar = (props) => {
-	return(
-		<form 
-			className="search-form">
-			{console.log('SearchBar ', props)}
-		    <input 
-		    	type="search" 
-		    	name="search" 
-		    	placeholder="Search" 
-		    	required 
-		    	value={props.query}
-		    	onChange={(e) => props.onChange(e.target.value)}
-		    	/>
-		</form>
-	)
-}
+/* 
+	A stateless form component for the search.
+*/
 
-export default SearchBar;
+export default (props) => (
+	<form className="search-form">
+	    <input 
+	    	type="search" 
+	    	name="search" 
+	    	placeholder="Search" 
+	    	required 
+	    	value={props.query}
+	    	onChange={(e) => props.onChange(e.target.value)}
+	    	/>
+	</form>
+);

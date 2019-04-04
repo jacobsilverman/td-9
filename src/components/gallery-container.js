@@ -1,29 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
 import '../styles/index.css';
 import PhotoContainer from './photo-container';
-import { Consumer } from '../context'
 
+/* 
+	A Single Gallery component that can be reused to display the sets of images for each of the three topic categories.
 
-class GalleryContainer extends Component {
-	/* 
-		Can i change this to a pure component
-		and still access props?
-	 */
-	render(){
-		return(
-			<ul>
-	    		 {this.props.gallery.map(item => {
-	    		 	return ( 
-	    		 		<PhotoContainer 
-						key={item.id} 
-						url={`https://farm${item.farm}.staticflickr.com/${item.server}/${item.id}_${item.secret}.jpg`} 
-						/>
-	    			)}
-	    		 )}
-	    		<li></li>
-    		</ul>
-    	)
-	}
-}
+	nb. The only downside to exporting stateless components in this way is they appear as Unknown in chrome's React devtools 
+*/
 
-export default GalleryContainer;
+export default (props) => (
+	<ul>
+		 {props.gallery.map(item => ( 
+		 	/* 
+				A single Gallery-item component reused with iteration
+			*/
+	 		<PhotoContainer 
+			key={item.id} 
+			url={`https://farm${item.farm}.staticflickr.com/${item.server}/${item.id}_${item.secret}.jpg`} 
+			/>
+		)
+		 )}
+	</ul>
+);

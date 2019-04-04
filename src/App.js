@@ -2,19 +2,23 @@ import React, { Component, Fragment } from 'react';
 // import logo from './logo.svg';
 import './App.css';
 import './styles/index.css';
+/* Import your API key into your application */
+import api_key from './config';
+/* Import Custom Components */
 import SearchBar from './components/search-bar';
 import MainNav from './components/main-nav';
 import GalleryContainer from './components/gallery-container';
 import NotFound from './components/not-found';
-import api_key from './config';
-import { Provider } from './context';
 import Loading from './components/loading';
 
 const Header = (props) => {
 
   return (
       <Fragment>
+      {/* */}
         <SearchBar {...props} />
+
+      {/* A Nav component for the navigation menu */}
         <MainNav {...props}/>
       </Fragment>
   )
@@ -144,7 +148,7 @@ class App extends Component {
         <div className="body">
           <div className="container">
 
-        {/* A Header component that could store things like an app title, logo, nav and search bar. Remember, the mockups and index.html file are a guide for how the main components should be laid out, arranged, and positioned, but you can personalize your app by adding things like a tittle, logo, footer, etc.. */}
+        {/* A Header component containing nav and search bar. */}
 
           <Header 
             query={this.state.query} 
@@ -152,13 +156,15 @@ class App extends Component {
             items={this.state.nav_items}
             />
 
-
             <div className="photo-container">
               <h2>Results</h2>
               { this.state.loading ?
+                /*  */
                 <Loading /> :
                 this.state.gallery ?
+                /* A single Gallery component */
                 <GalleryContainer gallery={this.state.gallery}/> :
+                /*  */
                 <NotFound />
               }
             </div>
