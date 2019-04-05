@@ -7,7 +7,6 @@ import '../styles/index.css';
 
 export default (props) => (
 	<form className="search-form">
-		{console.log('search', props)}
 	    <input 
 	    	type="search" 
 	    	name="search" 

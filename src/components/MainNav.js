@@ -18,6 +18,7 @@ export default (props) => (
 			</NavLink> 
 			{props.props.nav_items.map((item) => (
 				<NavLink 
+				key={`key_${item}`}
 				className="main-nav-link"
 				to={`/${item}`}
 				onClick={(e) => props.handleQueryChange(e.target.text)}>
