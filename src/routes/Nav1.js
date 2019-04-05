@@ -21,11 +21,13 @@ const Header = (props) => (
 
 export default (props) => (
 	<div className="body">
-		{console.log('nav1 ',props)}
 	    <div className="container">
 	      <Header {...props}/>
 	      <div className="photo-container">
-	        <h2>Results</h2>
+	        { (props.props.query === '') ? 
+	          <h2>Results</h2> :
+	          <h2>Results for "{props.props.query}"</h2>
+	        }
 	        { props.props.loading ?
 	          /* Loading component in case the user clicks nav item before the componentWillMount script runs. */
 	          <Loading /> :

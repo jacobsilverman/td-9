@@ -90,7 +90,7 @@ export default apiKey;
 
 ✅ no console warnings regarding unique "key" props.
 
-❌ The title of each page displaying images should be dynamically provided via "props".
+✅ The title of each page displaying images should be dynamically provided via "props".
 
 ✅ The current route should be reflected in the URL.
 
