@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-// import logo from './logo.svg';
-import './App.css';
-import './styles/index.css';
-import NotFound from './components/not-found';
+import {Link} from 'react-router-dom';
+import '../styles/App.css';
+import '../styles/index.css';
 
 class NoMatch extends Component {
 
   /* 
-    done: This is the 404 route
+    This is the 404 route to display when the user navigates to a url slug without a valid route.
   */
 
   render() {
@@ -16,7 +15,7 @@ class NoMatch extends Component {
           <div className="container">
             <p>Nothing to see here!</p>
             <p>404: Route not found.</p>
-            <sub>try localhost:300/search</sub>
+            <Link to='search'>go to search route</Link>
           </div>
         </div>
     );

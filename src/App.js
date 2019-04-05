@@ -1,34 +1,26 @@
 import React, { Component, Fragment } from 'react';
-// import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
+import './styles/App.css';
 import './styles/index.css';
-/* Import your API key into your application */
+
+import Search from './routes/Search';
+import Nav1 from './routes/Nav1';
+import Nav2 from './routes/Nav2';
+import Nav3 from './routes/Nav3';
+import NoMatch from './routes/NoMatch';
+
+/* Import API key into your application */
 import api_key from './config';
-/* Import Custom Components */
-import SearchBar from './components/search-bar';
-import MainNav from './components/main-nav';
-import GalleryContainer from './components/gallery-container';
-import NotFound from './components/not-found';
-import Loading from './components/loading';
 
-const Header = (props) => {
-
-  return (
-      <Fragment>
-      {/* */}
-        <SearchBar {...props} />
-
-      {/* A Nav component for the navigation menu */}
-        <MainNav {...props}/>
-      </Fragment>
-  )
-}
-
+/* 
+  I have kept and manage as much of the state and functionality as possible in src/App.js file, and passed data down to reusable stateless components with props via the render() method of Routes.
+*/
 
 class App extends Component {
 
   /* 
-    done: keep and manage as much of the state and functionality as possible in your src/App.js file, and pass data down to reusable stateless components with props.
+    This is the application state. You can change the 3 navigation terms here and they will propogate down to the nav-item component.
   */
 
   state = {
@@ -44,13 +36,17 @@ class App extends Component {
   };
 
   componentWillMount = () => {
-    /* done: perform a search on start */
+    /* perform a search on start */
     this.performSearch(this.state.nav_items[0]);
-    /* */
+    /* preload the stock galleries for quick-loading when navigating */
     for (var i = 0; i < 3; i++) {
       this.performSearch(this.state.nav_items[i],i);
     }
   }
+
+/* 
+  handleQueryChange() is used to determine if the user wants to fetch new data by search (default) or navigate to one of the pre-loaded stock galleries (case 0-2). 
+*/
 
   handleQueryChange = (query) => {
     this.setState( prevState => {
@@ -64,7 +60,6 @@ class App extends Component {
           this.renderStock(1);
           break;
         case this.state.nav_items[2]:
-          console.log('stock',this.state.stock)
           this.renderStock(2);
           break;
         default:
@@ -78,7 +73,12 @@ class App extends Component {
     });
   }
 
+/* 
+  renderStock() saves the results of the fetch into the stock galleries array. The callback changes loading bool to false.
+*/
+
   renderStock = (item_num) => {
+
     this.setState((prevState) => { 
             return (
               {...prevState, 
@@ -96,10 +96,13 @@ class App extends Component {
           })
   }
 
+/* 
+  updateState() saves the data from the initial fetch to the relevant stock gallery.
+*/
+
   updateState = (index, prevState, data) => {
     return ({
       ...prevState,
-
       stock: {
         ...prevState.stock,
         [index]: data
@@ -107,6 +110,10 @@ class App extends Component {
       loading: false
     });
   }
+
+/* 
+  Runs wen the user wants to perform a search.
+*/
 
   performSearch = (query, dest) => {
     let fetch_url = `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${api_key}&per_page=24&content_type=1&format=json&nojsoncallback=1&tags=`
@@ -134,46 +141,48 @@ class App extends Component {
       });
     }
 
-  checkImage = () => {
-    /* 
-      todo: some images return net::ERR_NAME_NOTRESOLVED if an image returns that then should search for a new image
-    */ 
-    this.state.gallery.map(item => {
-      const fetch_url = `https://farm${item.farm}.staticflickr.com/${item.server}/${item.id}_${item.secret}.jpg`;
-    })
-  }
+  /* 
+    Render the routes and pass appropriate props and functions to downstream mostly stateless components.
+  */
 
-  render() {
-    return (
-        <div className="body">
-          <div className="container">
-
-        {/* A Header component containing nav and search bar. */}
-
-          <Header 
-            query={this.state.query} 
-            onChange={this.handleQueryChange} 
-            items={this.state.nav_items}
+  render(){
+  	return(
+  		<Router>
+		  	<Switch>
+      {/* Search Route default is whatever term is in State nav_items Array Position 1 */}
+				<Route 
+          path="/search" 
+          render={()=> 
+            <Search 
+              props={this.state}
+              handleQueryChange={this.handleQueryChange}
+              />
+              } 
             />
-
-            <div className="photo-container">
-              <h2>Results</h2>
-              { this.state.loading ?
-                /*  */
-                <Loading /> :
-                this.state.gallery ?
-                /* A single Gallery component */
-                <GalleryContainer gallery={this.state.gallery}/> :
-                /*  */
-                <NotFound />
-              }
-            </div>
-          </div>
-        </div>
-    );
+        {/* Navigation Route 1 eg. Cats */}
+				<Route 
+          path={`/${this.state.nav_items[0]}`}
+          render={()=> <Nav1 props={this.state} 
+          handleQueryChange={this.handleQueryChange}
+          />}/>
+        {/* Navigation Route 2 eg. Dogs */}
+				<Route 
+          path={`/${this.state.nav_items[1]}`}
+          render={()=> <Nav2 props={this.state}
+          handleQueryChange={this.handleQueryChange}
+          />}/>
+        {/* Navigation Route 3 eg. Computers */}
+				<Route 
+          path={`/${this.state.nav_items[2]}`}
+          render={()=> <Nav3 props={this.state}
+          handleQueryChange={this.handleQueryChange}
+          />}/>
+				{/* 404 route */}
+				<Route component={NoMatch} />
+		    </Switch>
+		  </Router>
+  	)
   }
 }
 
 export default App;
-
- /*        */

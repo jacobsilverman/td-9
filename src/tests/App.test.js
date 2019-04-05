@@ -1,3 +1,5 @@
+/* From boilerplate I didn't make any changes here */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';

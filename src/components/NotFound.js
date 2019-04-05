@@ -1,6 +1,10 @@
 import React from 'react';
 import '../styles/index.css';
 
+/* 
+	A simple stateless component to display when no results are found of a search.
+*/
+
 export default () => (
 	<ul>
 		<li className="not-found">

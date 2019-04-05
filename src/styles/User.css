@@ -1,0 +1,39 @@
+/* User defined styles go here */
+
+.main-nav-link {
+	/*padding-left: 0;*/
+	text-decoration: none;
+  	/*margin-bottom: 1em;*/
+	background: #438bbd;
+	border-radius: 3px;
+	padding: 5px;
+	margin: 5px;
+	color: #fff;
+	width: 100px;
+	height: 32;
+}
+
+.main-nav-link:hover {
+	background-color: #275270;
+}
+
+.main-nav-div {
+	display: flex;
+	flex-direction:row;
+	justify-content: center;
+}
+
+.search-form {
+	padding: 40px;
+	flex-direction:row;
+	justify-content: center;
+}
+
+@media only screen and (min-width: 768px)  {
+	main-nav-link {
+		display: flex;
+    	justify-content: center;
+    	margin: 10px;
+    	width: 100px;
+	}
+}
