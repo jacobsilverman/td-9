@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 /* Import Custom Components */
 import GalleryContainer from '../components/GalleryContainer';
 import NotFound from '../components/NotFound';
@@ -14,10 +14,10 @@ import '../styles/index.css';
 */
 
 const Header = (props) => (
-  <div>
+  <Fragment>
     <MainNav {...props}/>
     <SearchBar {...props} />
-  </div>
+  </Fragment>
 )
 
 /* 

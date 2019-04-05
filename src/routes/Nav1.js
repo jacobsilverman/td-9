@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 /* Import Custom Components */
 import GalleryContainer from '../components/GalleryContainer';
 import NotFound from '../components/NotFound';
 import Loading from '../components/Loading';
-import SearchBar from '../components/SearchBar';
 import MainNav from '../components/MainNav';
 
 import '../styles/App.css';
@@ -14,9 +13,9 @@ import '../styles/index.css';
 */
 
 const Header = (props) => (
-  <div>
+  <Fragment>
     <MainNav {...props}/>
-  </div>
+  </Fragment>
 )
 
 export default (props) => (
