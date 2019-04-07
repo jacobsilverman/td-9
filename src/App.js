@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 
 import './styles/App.css';
 import './styles/index.css';
@@ -177,6 +177,7 @@ class App extends Component {
           render={()=> <Nav3 props={this.state}
           handleQueryChange={this.handleQueryChange}
           />}/>
+        <Redirect exact from="/" to="/search" />
 				{/* 404 route */}
 				<Route component={NoMatch} />
 		    </Switch>
